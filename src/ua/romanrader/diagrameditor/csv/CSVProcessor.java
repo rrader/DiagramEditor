@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+
 /**
  * CSV Processor
  * @author romanrader
@@ -45,10 +46,11 @@ public class CSVProcessor {
 	 * Serializes list to file
 	 * @param file file
 	 */
-	public void serializeTo(File file) {
+	public void serializeTo(File file, long csvDate) {
 		ObjectOutputStream out = null;
 		try {
 			out = new ObjectOutputStream(new FileOutputStream(file));
+			out.writeLong(csvDate);
 			out.writeObject(list);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -69,12 +71,18 @@ public class CSVProcessor {
 	/**
 	 * Read serialized list from file
 	 * @param file
+	 * @throws CSVSerializedDateMismatch 
 	 */
 	@SuppressWarnings("unchecked")
-	public void deserializeFrom(File file) {
+	public void deserializeFrom(File file, long csvDate) throws CSVSerializedDateMismatch {
 		ObjectInputStream in = null;
 		try {
 			in = new ObjectInputStream(new FileInputStream(file));
+			long date = in.readLong();
+			if (date != csvDate) {
+				in.close();
+				throw new CSVSerializedDateMismatch();
+			}
 			list = (ArrayList<String>) in.readObject();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -103,8 +111,7 @@ public class CSVProcessor {
 		BufferedReader bufReader = null;
 		bufReader = new BufferedReader(new FileReader(file));
 		String line = null;
-		while (null != (line = bufReader.readLine()))
-		{
+		while (null != (line = bufReader.readLine())) {
 			list.add(line);
 		}
 	}
@@ -135,7 +142,7 @@ public class CSVProcessor {
 	 * @return parsed array
 	 * @throws CSVParseException
 	 */
-	public Double[][] parse() throws CSVParseException {
+	public DataSet parse() throws CSVParseException {
 		Double[][] sl = new Double[1][];
 		ArrayList<Double> parsed = new ArrayList<Double>();
 		String line;
@@ -153,6 +160,6 @@ public class CSVProcessor {
 		}
 		System.out.println(parsed.size());
 		sl[0] = parsed.toArray(new Double[parsed.size()]);
-		return sl;
+		return new DataSet(sl);
 	}
 }
