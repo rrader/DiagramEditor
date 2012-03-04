@@ -5,6 +5,10 @@ import java.awt.GridLayout;
 import javax.swing.JFrame;
 import javax.swing.JTable;
 
+import ua.romanrader.diagrameditor.csv.CSVProcessor;
+import ua.romanrader.diagrameditor.csv.CSVReceiver;
+import ua.romanrader.diagrameditor.csv.DataSet;
+
 @SuppressWarnings("serial")
 public class DiagramEditor extends JFrame {
 	public static final String DEFAULT_CSV_FILE = "data.csv";
@@ -27,7 +31,21 @@ public class DiagramEditor extends JFrame {
 		add(diagramView);
 		
 		//Load default data.csv
-		CSVTableModel model = CSVTableModel.getInstance();
+		//CSVTableModel model = CSVTableModel.getInstance();
+		CSVProcessor.LoadFile(DEFAULT_CSV_FILE, new CSVReceiver(){
+
+			@Override
+			public void receivingFailed(String message) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void receivingFinished(DataSet data) {
+				CSVTableModel.getInstance().add(data);
+			}
+			
+		});
 		//model.add();
 	}
 }

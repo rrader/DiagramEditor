@@ -25,10 +25,6 @@ public class CSVTableModel extends AbstractTableModel implements List<DataSet> {
 		return instance;
 	}
 	
-	public void addDataSet(DataSet ds) {
-		dataSets.add(ds);
-	}
-	
 // =================
 // AbstractTableModel
 
@@ -71,17 +67,22 @@ public class CSVTableModel extends AbstractTableModel implements List<DataSet> {
 	
 	@Override
 	public boolean add(DataSet e) {
-		return dataSets.add(e);
+		boolean b = dataSets.add(e); 
+		fireTableStructureChanged();
+		return b;
 	}
 
 	@Override
 	public boolean addAll(Collection<? extends DataSet> c) {
-		return dataSets.addAll(c);
+		boolean b = dataSets.addAll(c);
+		fireTableStructureChanged();
+		return b;
 	}
 
 	@Override
 	public void clear() {
 		dataSets.clear();
+		fireTableStructureChanged();
 	}
 
 	@Override
@@ -106,17 +107,23 @@ public class CSVTableModel extends AbstractTableModel implements List<DataSet> {
 
 	@Override
 	public boolean remove(Object o) {
-		return dataSets.remove(o);
+		boolean b = dataSets.remove(o);
+		fireTableStructureChanged();
+		return b;
 	}
 
 	@Override
 	public boolean removeAll(Collection<?> c) {
-		return dataSets.removeAll(c);
+		boolean b = dataSets.removeAll(c);
+		fireTableStructureChanged();
+		return b;
 	}
 
 	@Override
 	public boolean retainAll(Collection<?> c) {
-		return dataSets.retainAll(c);
+		boolean b = dataSets.retainAll(c);
+		fireTableStructureChanged();
+		return b;
 	}
 
 	@Override
@@ -137,11 +144,14 @@ public class CSVTableModel extends AbstractTableModel implements List<DataSet> {
 	@Override
 	public void add(int arg0, DataSet arg1) {
 		dataSets.add(arg0, arg1);
+		fireTableStructureChanged();
 	}
 
 	@Override
 	public boolean addAll(int arg0, Collection<? extends DataSet> arg1) {
-		return dataSets.addAll(arg0, arg1);
+		boolean b = dataSets.addAll(arg0, arg1);
+		fireTableStructureChanged();
+		return b;
 	}
 
 	@Override
@@ -176,7 +186,9 @@ public class CSVTableModel extends AbstractTableModel implements List<DataSet> {
 
 	@Override
 	public DataSet set(int arg0, DataSet arg1) {
-		return dataSets.set(arg0,  arg1);
+		DataSet ds = dataSets.set(arg0,  arg1);
+		fireTableDataChanged();
+		return ds;
 	}
 
 	@Override
