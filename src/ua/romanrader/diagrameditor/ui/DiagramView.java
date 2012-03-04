@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import ua.romanrader.diagrameditor.csv.DataSet;
-import ua.romanrader.diagrameditor.util.Observer.Notification;
-import ua.romanrader.diagrameditor.util.Observer.Notificator;
-import ua.romanrader.diagrameditor.util.Observer.Observer;
+import ua.romanrader.diagrameditor.util.observer.Notification;
+import ua.romanrader.diagrameditor.util.observer.Notificator;
+import ua.romanrader.diagrameditor.util.observer.Observer;
 
 @SuppressWarnings("serial")
 public class DiagramView extends JPanel implements Observer {
@@ -73,8 +73,10 @@ public class DiagramView extends JPanel implements Observer {
 	@Override
 	public void notificationReceived(Notification notification) {
 		if (notification.getName().compareTo(DiagramEditor.NEW_DATASET_NOTIFICATION) == 0) {
-			this.dataSet = (DataSet)notification.getUserData();
-			this.invalidate();
+			if ((DataSet)notification.getUserData() != this.dataSet) {
+				this.dataSet = (DataSet)notification.getUserData();
+				this.invalidate();
+			}
 		}
 	}
     

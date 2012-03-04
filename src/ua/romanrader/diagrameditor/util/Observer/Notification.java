@@ -1,4 +1,4 @@
-package ua.romanrader.diagrameditor.util.Observer;
+package ua.romanrader.diagrameditor.util.observer;
 
 public class Notification {
 	private Object sender;

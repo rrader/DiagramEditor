@@ -1,4 +1,4 @@
-package ua.romanrader.diagrameditor.util.Observer;
+package ua.romanrader.diagrameditor.util.observer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,12 +12,11 @@ public class Notificator {
 	public static Notificator getInstance() {
 		return instance;
 	}
-
 	
 	private Map<String, ArrayList<Observer>> observers = new HashMap<String, ArrayList<Observer>>();
 	
 	public void addObserver(Observer observer, String notification) {
-		if (observers.containsKey(notification)) {
+		if (!observers.containsKey(notification)) {
 			observers.put(notification, new ArrayList<Observer>());
 		}
 		ArrayList<Observer> list = observers.get(notification);

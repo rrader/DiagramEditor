@@ -12,6 +12,10 @@ public class DataSet extends ArrayList<Double> {
 //		this.data = new ArrayList<Double>();
 //	}
 //	
+	public DataSet() {
+		super();
+	}
+	
 	public DataSet(Double[][] data) {
 		super(Arrays.asList(data[0]));
 	}

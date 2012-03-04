@@ -72,9 +72,11 @@ public class CSVProcessor {
 	 * Read serialized list from file
 	 * @param file
 	 * @throws CSVSerializedDateMismatch 
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
 	 */
 	@SuppressWarnings("unchecked")
-	public void deserializeFrom(File file, long csvDate) throws CSVSerializedDateMismatch {
+	public void deserializeFrom(File file, long csvDate) throws CSVSerializedDateMismatch, IOException, ClassNotFoundException {
 		ObjectInputStream in = null;
 		try {
 			in = new ObjectInputStream(new FileInputStream(file));
@@ -85,18 +87,14 @@ public class CSVProcessor {
 			}
 			list = (ArrayList<String>) in.readObject();
 		} catch (IOException e) {
-			e.printStackTrace();
 			list = null;
+			throw e;
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 			list = null;
+			throw e;			
 		} finally {
-            try {
-                if (in != null) {
-                	in.close();
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
+			if (in != null) {
+            	in.close();
             }
 		}
 	}
@@ -179,17 +177,33 @@ public class CSVProcessor {
 				File datFile = new File(changeExtension(file, ".dat"));
 				CSVProcessor p = new CSVProcessor();
 				
+				boolean read = false;
 				if (datFile.exists()) {
 					try {
 						p.deserializeFrom(datFile, csvFile.lastModified());
+						System.out.println("loaded from serialized");
+						read = true;
 					} catch (CSVSerializedDateMismatch e) {
-						try {
-							p.readCSV(csvFile);
-						} catch (FileNotFoundException e1) {
-							receiver.receivingFailed("File not found");
-						} catch (IOException e1) {
-							receiver.receivingFailed("I/O error");
-						}
+						read = false;
+						System.out.println("Old .dat file");
+					} catch (IOException e) {
+						read = false;
+						System.out.println("IO exception while reading .dat file");
+					} catch (ClassNotFoundException e) {
+						read = false;
+						System.out.println("Wrong format of .dat file");
+					}
+				}
+				if (!read) {
+					try {
+						p.readCSV(csvFile);
+						System.out.println("loaded from csv");
+					} catch (FileNotFoundException e1) {
+						receiver.receivingFailed("File not found");
+						return;
+					} catch (IOException e1) {
+						receiver.receivingFailed("I/O error");
+						return;
 					}
 				}
 				
@@ -198,7 +212,10 @@ public class CSVProcessor {
 					receiver.receivingFinished(parsed);
 				} catch (CSVParseException e) {
 					receiver.receivingFailed("CSV validation failed");
+					return;
 				}
+				
+				p.serializeTo(datFile, csvFile.lastModified());
 			}
 		});
 		parsing.start();

@@ -35,7 +35,10 @@ public class CSVTableModel extends AbstractTableModel implements List<DataSet> {
 
 	@Override
 	public int getRowCount() {
-		return Collections.max(dataSets, new DataSetSizeComparator()).size();
+		if (dataSets.size()>0) {
+			return Collections.max(dataSets, new DataSetSizeComparator()).size();
+		}
+		return 0;
 	}
 
 	@Override
@@ -45,11 +48,14 @@ public class CSVTableModel extends AbstractTableModel implements List<DataSet> {
 	
 	@Override
 	public Object getValueAt(int arg0, int arg1) {
-		DataSet ds = dataSets.get(arg0);
-		if (arg1<ds.size()) {
-			return ds.get(arg1);
+		if (arg1>=dataSets.size()) {
+			return new Double(0.);
 		}
-		return 0.;
+		DataSet ds = dataSets.get(arg1);
+		if (arg0<ds.size()) {
+			return ds.get(arg0);
+		}
+		return new Double(0.);
 	}
 
 	@Override
