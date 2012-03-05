@@ -1,4 +1,4 @@
-package ua.romanrader.diagrameditor.csv;
+package ua.romanrader.diagrameditor.model.csv;
 //Strategy
 public interface CSVReceiver {
 	public void receivingFailed(String message);

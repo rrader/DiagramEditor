@@ -2,7 +2,7 @@ package ua.romanrader.diagrameditor.util;
 
 import java.util.Comparator;
 
-import ua.romanrader.diagrameditor.csv.DataSet;
+import ua.romanrader.diagrameditor.model.csv.DataSet;
 
 public class DataSetSizeComparator implements Comparator<DataSet> {
 

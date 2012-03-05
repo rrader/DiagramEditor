@@ -1,4 +1,4 @@
-package ua.romanrader.diagrameditor.csv;
+package ua.romanrader.diagrameditor.model.csv;
 import java.io.IOException;
 
 /**

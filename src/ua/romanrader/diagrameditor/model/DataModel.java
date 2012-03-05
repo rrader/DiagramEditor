@@ -1,5 +1,6 @@
-package ua.romanrader.diagrameditor.ui;
+package ua.romanrader.diagrameditor.model;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -7,24 +8,40 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import ua.romanrader.diagrameditor.csv.DataSet;
+import ua.romanrader.diagrameditor.model.csv.DataSet;
+import ua.romanrader.diagrameditor.ui.DiagramEditor;
 import ua.romanrader.diagrameditor.util.DataSetSizeComparator;
+import ua.romanrader.diagrameditor.util.observer.Notificator;
 
 import javax.swing.table.AbstractTableModel;
 
 //TODO Model in MVC, Singleton and Adapter simultaneously - to documentation
 @SuppressWarnings("serial")
-public class CSVTableModel extends AbstractTableModel implements List<DataSet> {
+public class DataModel extends AbstractTableModel implements List<DataSet> {
 
 	private ArrayList<DataSet> dataSets = new ArrayList<DataSet>();
-
-	private static CSVTableModel instance = new CSVTableModel();
-	private CSVTableModel() {}
 	
-	public static CSVTableModel getInstance() {
+	private ArrayList<Color> currentColorSet = null;
+	
+	private static DataModel instance = new DataModel();
+	private DataModel() {}
+	
+	public static DataModel getInstance() {
 		return instance;
 	}
+	private int selectedColumn = -1;
 	
+	public int getSelectedColumn() {
+		return selectedColumn;
+	}
+
+	public void setSelectedColumn(int selectedColumn) {
+		this.selectedColumn = selectedColumn;
+	}
+	
+	public void dataSetUpdated() {
+		fireTableStructureChanged();
+	}
 // =================
 // AbstractTableModel
 
@@ -43,7 +60,7 @@ public class CSVTableModel extends AbstractTableModel implements List<DataSet> {
 
 	@Override
 	public boolean isCellEditable(int row,int cols) {
-		return false;                                                                                         
+		return false;
     }
 	
 	@Override
@@ -60,14 +77,14 @@ public class CSVTableModel extends AbstractTableModel implements List<DataSet> {
 
 	@Override
 	public String getColumnName(int column) {
-		return "Dataset "+column;
+		return "Dataset "+(column+1);
 	}
 	
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		return Double.class;
 	}
-
+	
 // =================
 // Collection
 	
@@ -75,6 +92,7 @@ public class CSVTableModel extends AbstractTableModel implements List<DataSet> {
 	public boolean add(DataSet e) {
 		boolean b = dataSets.add(e); 
 		fireTableStructureChanged();
+		Notificator.getInstance().sendNotify(this, DiagramEditor.COLUMN_ADDED);
 		return b;
 	}
 
@@ -82,6 +100,7 @@ public class CSVTableModel extends AbstractTableModel implements List<DataSet> {
 	public boolean addAll(Collection<? extends DataSet> c) {
 		boolean b = dataSets.addAll(c);
 		fireTableStructureChanged();
+		Notificator.getInstance().sendNotify(this, DiagramEditor.COLUMN_ADDED);
 		return b;
 	}
 
@@ -200,5 +219,13 @@ public class CSVTableModel extends AbstractTableModel implements List<DataSet> {
 	@Override
 	public List<DataSet> subList(int arg0, int arg1) {
 		return dataSets.subList(arg0, arg1);
+	}
+
+	public ArrayList<Color> getCurrentColorSet() {
+		return currentColorSet;
+	}
+
+	public void setCurrentColorSet(ArrayList<Color> currentColorSet) {
+		this.currentColorSet = currentColorSet;
 	}
 }
