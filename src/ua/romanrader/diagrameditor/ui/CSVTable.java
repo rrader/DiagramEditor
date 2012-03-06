@@ -23,6 +23,7 @@ public class CSVTable extends JTable implements Observer {
 		setModel(DataModel.getInstance());
 		Notificator.getInstance().addObserver(this, DiagramEditor.COLUMN_ADDED);
 		Notificator.getInstance().addObserver(this, DiagramEditor.DATASET_CHANGED);
+		Notificator.getInstance().addObserver(this, DiagramEditor.VIEWSTATE_CHANGED);
 		
 		this.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -31,6 +32,7 @@ public class CSVTable extends JTable implements Observer {
 				int col= table.columnAtPoint(e.getPoint());
 				DataModel.getInstance().setSelectedColumn(col);
 				DataSet ds = DataModel.getInstance().get(col);
+				DataModel.getInstance().setCurrentDataSet(ds);
 				Notificator.getInstance().sendNotify(table, DiagramEditor.NEW_DATASET_NOTIFICATION, ds);
 				CSVTable.this.revalidate();
 				CSVTable.this.repaint();
@@ -65,6 +67,12 @@ public class CSVTable extends JTable implements Observer {
 			this.setRendererForAllColumns();
 		} else
 		if (notification.getName().compareTo(DiagramEditor.DATASET_CHANGED) == 0) {
+			DataModel.getInstance().dataSetUpdated();
+			this.setRendererForAllColumns();
+			CSVTable.this.revalidate();
+			CSVTable.this.repaint();
+		}
+		if (notification.getName().compareTo(DiagramEditor.VIEWSTATE_CHANGED) == 0) {
 			DataModel.getInstance().dataSetUpdated();
 			this.setRendererForAllColumns();
 			CSVTable.this.revalidate();

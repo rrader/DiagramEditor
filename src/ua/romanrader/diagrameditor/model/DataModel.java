@@ -19,9 +19,25 @@ import javax.swing.table.AbstractTableModel;
 @SuppressWarnings("serial")
 public class DataModel extends AbstractTableModel implements List<DataSet> {
 
+	public enum State {StateNormal, StateRemoving};
+	public enum ViewState {Single, Simultaneously};
+	
 	private ArrayList<DataSet> dataSets = new ArrayList<DataSet>();
+	private ArrayList<ArrayList<Color>> colorSets = null;
+	
+	public ArrayList<ArrayList<Color>> getColorSets() {
+		return colorSets;
+	}
+
+	public void setColorSets(ArrayList<ArrayList<Color>> colorSets) {
+		this.colorSets = colorSets;
+	}
+	private DataSet currentDataSet = null;
 	
 	private ArrayList<Color> currentColorSet = null;
+	
+	private State state = State.StateNormal;
+	private ViewState vstate = ViewState.Single;
 	
 	private static DataModel instance = new DataModel();
 	private DataModel() {}
@@ -42,6 +58,58 @@ public class DataModel extends AbstractTableModel implements List<DataSet> {
 	public void dataSetUpdated() {
 		fireTableStructureChanged();
 	}
+	
+	public ArrayList<Color> getCurrentColorSet() {
+		return currentColorSet;
+	}
+
+	public void setCurrentColorSet(ArrayList<Color> currentColorSet) {
+		this.currentColorSet = currentColorSet;
+	}
+
+	public DataSet getCurrentDataSet() {
+		return currentDataSet;
+	}
+
+	public void setCurrentDataSet(DataSet currentDataSet) {
+		this.currentDataSet = currentDataSet;
+		this.makeColors();
+	}
+	
+	public void makeColors() {
+		if (vstate == ViewState.Single) {
+			if (currentDataSet == null) {
+				setCurrentColorSet(null);
+				return;
+			}
+			ArrayList<Color> colorSet;
+			colorSet = new ArrayList<Color>();
+			//Random numGen = new Random();
+			for (int i=0;i<currentDataSet.size();i++) {
+				//colorSet.add(new Color(numGen.nextInt(256), numGen.nextInt(256), numGen.nextInt(256)));
+				colorSet.add(Color.getHSBColor(i / (float)currentDataSet.size(), 1.0f, 1.0f));
+			}
+			setCurrentColorSet(colorSet);
+		}
+		if (vstate == ViewState.Simultaneously) {
+			int i=0;
+			int count = 0;
+			for (DataSet ds : dataSets) {
+				count += ds.size();
+			}
+			colorSets = new ArrayList<ArrayList<Color>>();
+			ArrayList<Color> colorSet;
+			for (DataSet ds : dataSets) {
+				colorSet = new ArrayList<Color>();
+				for (int k=0;k<ds.size();k++) {
+					colorSet.add(Color.getHSBColor(i / (float)count, 1.0f, 1.0f));
+					i++;
+				}
+				colorSets.add(colorSet);
+			}
+		}
+	}
+	
 // =================
 // AbstractTableModel
 
@@ -90,7 +158,8 @@ public class DataModel extends AbstractTableModel implements List<DataSet> {
 	
 	@Override
 	public boolean add(DataSet e) {
-		boolean b = dataSets.add(e); 
+		boolean b = dataSets.add(e);
+		//makeColors();
 		fireTableStructureChanged();
 		Notificator.getInstance().sendNotify(this, DiagramEditor.COLUMN_ADDED);
 		return b;
@@ -99,6 +168,7 @@ public class DataModel extends AbstractTableModel implements List<DataSet> {
 	@Override
 	public boolean addAll(Collection<? extends DataSet> c) {
 		boolean b = dataSets.addAll(c);
+		//makeColors();
 		fireTableStructureChanged();
 		Notificator.getInstance().sendNotify(this, DiagramEditor.COLUMN_ADDED);
 		return b;
@@ -221,11 +291,19 @@ public class DataModel extends AbstractTableModel implements List<DataSet> {
 		return dataSets.subList(arg0, arg1);
 	}
 
-	public ArrayList<Color> getCurrentColorSet() {
-		return currentColorSet;
+	public State getState() {
+		return state;
 	}
 
-	public void setCurrentColorSet(ArrayList<Color> currentColorSet) {
-		this.currentColorSet = currentColorSet;
+	public void setState(State state) {
+		this.state = state;
+	}
+
+	public ViewState getVstate() {
+		return vstate;
+	}
+
+	public void setVstate(ViewState vstate) {
+		this.vstate = vstate;
 	}
 }

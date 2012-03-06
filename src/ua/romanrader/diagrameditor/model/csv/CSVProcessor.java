@@ -220,4 +220,18 @@ public class CSVProcessor {
 		});
 		parsing.start();
 	}
+	
+	public static void SaveFile(final String file, DataSet ds) throws IOException {
+		CSVProcessor p = new CSVProcessor();
+		String res = "";
+		for(int i=0;i<ds.size()-1;i++) {
+			res = res.concat(ds.get(i).toString());
+			res = res.concat(", ");
+		}
+		res = res.concat(ds.get(ds.size()-1).toString());
+		ArrayList<String> lst = new ArrayList<String>();
+		lst.add(res);
+		p.setList(lst);
+		p.writeCSV(new File(file));
+	}
 }

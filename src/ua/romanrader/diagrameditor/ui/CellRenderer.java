@@ -16,17 +16,45 @@ public class CellRenderer extends DefaultTableCellRenderer {
 			boolean isSelected, boolean hasFocus, int row, int col) {
 		Component comp = super.getTableCellRendererComponent(table, value,
 				isSelected, hasFocus, row, col);
-		ArrayList<Color> colorSet = DataModel.getInstance()
-				.getCurrentColorSet();
-		if (DataModel.getInstance().getSelectedColumn() == col) {
-			if (colorSet != null) {
-				comp.setBackground(colorSet.get(row));
+		if (DataModel.getInstance().getVstate() == DataModel.ViewState.Single)  {
+			ArrayList<Color> colorSet = DataModel.getInstance()
+					.getCurrentColorSet();
+			if (DataModel.getInstance().getSelectedColumn() == col) {
+				if ((colorSet != null) && (row < colorSet.size())) {
+					comp.setBackground(colorSet.get(row));
+					comp.setForeground(Color.black);
+				} else {
+					comp.setBackground(Color.LIGHT_GRAY);
+					comp.setForeground(Color.LIGHT_GRAY);
+				}
 			} else {
-				comp.setBackground(Color.LIGHT_GRAY);
+				if (row < DataModel.getInstance().get(col).size()) {
+					comp.setBackground(null);
+					comp.setForeground(Color.black);
+				} else {
+					comp.setBackground(Color.LIGHT_GRAY);
+					comp.setForeground(Color.LIGHT_GRAY);
+				}
 			}
-		} else {
-			comp.setBackground(null);
 		}
+		if (DataModel.getInstance().getVstate() == DataModel.ViewState.Simultaneously)  {
+			if (DataModel.getInstance().getColorSets() != null) {
+				if (col < DataModel.getInstance().getColorSets().size()) {
+					ArrayList<Color> colorSet = DataModel.getInstance().getColorSets().get(col);
+					if ((colorSet != null) && (row < colorSet.size())) {
+						comp.setBackground(colorSet.get(row));
+						comp.setForeground(Color.black);
+					} else {
+						comp.setBackground(Color.LIGHT_GRAY);
+						comp.setForeground(Color.LIGHT_GRAY);
+					}
+				} else {
+					comp.setBackground(Color.LIGHT_GRAY);
+					comp.setForeground(Color.LIGHT_GRAY);
+				}
+			}
+		}
+		
 		return (comp);
 	}
 

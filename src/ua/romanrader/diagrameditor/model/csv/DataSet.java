@@ -22,11 +22,16 @@ public class DataSet extends ArrayList<Double> {
 		super(Arrays.asList(data[0]));
 	}
 
-	public double[] generateAngles() {
+	public double sum() {
 		double sum = 0;
 		for(double v : this) {
 			sum += v;
 		}
+		return sum;
+	}
+	
+	public double[] generateAngles() {
+		double sum = sum();
 		double[] angles = new double[this.size()];
 		for(int i=0; i<this.size(); i++) {
 			angles[i] = (this.get(i) / sum) * 360;
@@ -35,11 +40,8 @@ public class DataSet extends ArrayList<Double> {
 	}
 	
 	public void setAngle(int num, double nval) {
-		double sum = 0;
 		double val = nval - startAngle;
-		for(double v : this) {
-			sum += v;
-		}
+		double sum = sum();
 
 		double prev = 0;
 		for (int i=0; i<num; i++) {
@@ -74,5 +76,9 @@ public class DataSet extends ArrayList<Double> {
 
 	public void setStartAngle(double startAngle) {
 		this.startAngle = startAngle;
+	}
+	
+	public void addValue() {
+		this.add(sum()/5);
 	}
 }
