@@ -4,6 +4,11 @@ import java.util.Comparator;
 
 import ua.romanrader.diagrameditor.model.csv.DataSet;
 
+/**
+ * Компаратор дата-сетов по размеру
+ * @author romanrader
+ *
+ */
 public class DataSetSizeComparator implements Comparator<DataSet> {
 
 	@Override

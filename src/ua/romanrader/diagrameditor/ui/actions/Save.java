@@ -12,13 +12,25 @@ import ua.romanrader.diagrameditor.model.csv.CSVProcessor;
 import ua.romanrader.diagrameditor.model.csv.DataSet;
 import ua.romanrader.diagrameditor.ui.DiagramEditor;
 
+/**
+ * Действия сохранения в .csv файл
+ * @author romanrader
+ *
+ */
 public class Save implements ActionListener {
 	private DiagramEditor de;
 	
+	/**
+	 * Конструктор действия
+	 * @param de главное окно
+	 */
 	public Save(DiagramEditor de) {
 		this.de = de;
 	}
 	
+	/**
+	 * Выполнение действия
+	 */
 	public void actionPerformed(ActionEvent e) {
     	DataSet ds = DataModel.getInstance().getCurrentDataSet();
     	if (ds != null) {

@@ -32,34 +32,34 @@ import ua.romanrader.diagrameditor.ui.actions.Save;
 import ua.romanrader.diagrameditor.ui.actions.SetViewState;
 
 /**
- * ѓлавное окно программы
+ * Р“Р»Р°РІРЅРѕРµ РѕРєРЅРѕ РїСЂРѕРіСЂР°РјРјС‹
  * @author romanrader
  *
  */
 @SuppressWarnings("serial")
 public class DiagramEditor extends JFrame {
 	/**
-	 * €мЯ файла, который открываетсЯ при запуске приложениЯ
+	 * РРјСЏ С„Р°Р№Р»Р°, РєРѕС‚РѕСЂС‹Р№ РѕС‚РєСЂС‹РІР°РµС‚СЃСЏ РїСЂРё Р·Р°РїСѓСЃРєРµ РїСЂРёР»РѕР¶РµРЅРёСЏ
 	 */
 	public static final String DEFAULT_CSV_FILE = "file.csv";
 	
 	/**
-	 * €дентификатор сообщениЯ о изменении текущего множества данных
+	 * РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃРѕРѕР±С‰РµРЅРёСЏ Рѕ РёР·РјРµРЅРµРЅРёРё С‚РµРєСѓС‰РµРіРѕ РјРЅРѕР¶РµСЃС‚РІР° РґР°РЅРЅС‹С…
 	 */
 	public static final String NEW_DATASET_NOTIFICATION = "DENewDatasetSelected";
 	
 	/**
-	 * €дентификатор сообщениЯ о добавлениЯ столбца в таблицу
+	 * РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃРѕРѕР±С‰РµРЅРёСЏ Рѕ РґРѕР±Р°РІР»РµРЅРёСЏ СЃС‚РѕР»Р±С†Р° РІ С‚Р°Р±Р»РёС†Сѓ
 	 */
 	public static final String COLUMN_ADDED = "DEColumnAdded";
 	
 	/**
-	 * €дентификатор сообщениЯ о изменениЯх в множестве данных
+	 * РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃРѕРѕР±С‰РµРЅРёСЏ Рѕ РёР·РјРµРЅРµРЅРёСЏС… РІ РјРЅРѕР¶РµСЃС‚РІРµ РґР°РЅРЅС‹С…
 	 */
 	public static final String DATASET_CHANGED = "DEDataSetChanged";
 	
 	/**
-	 * €дентификатор сообщениЯ о изменении вида отображениЯ
+	 * РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃРѕРѕР±С‰РµРЅРёСЏ Рѕ РёР·РјРµРЅРµРЅРёРё РІРёРґР° РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ
 	 */
 	public static final String VIEWSTATE_CHANGED = "DEViewStateChanged";
 	
@@ -68,21 +68,23 @@ public class DiagramEditor extends JFrame {
 	private StatusBar statusBar;
 	
 	/**
-	 * Љомпонент диаграммы
+	 * РљРѕРјРїРѕРЅРµРЅС‚ РґРёР°РіСЂР°РјРјС‹
+	 * @return РљРѕРјРїРѕРЅРµРЅС‚ РґРёР°РіСЂР°РјРјС‹
 	 */
 	public DiagramView getDiagramView() {
 		return diagramView;
 	}
 
 	/**
-	 * ‘трока состоЯниЯ
+	 * РЎС‚СЂРѕРєР° СЃРѕСЃС‚РѕСЏРЅРёСЏ
+	 * @return РЎС‚СЂРѕРєР° СЃРѕСЃС‚РѕСЏРЅРёСЏ
 	 */
 	public StatusBar getStatusBar() {
 		return statusBar;
 	}
 
 	/**
-	 * Љонструктор окна
+	 * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РѕРєРЅР°
 	 */
 	public DiagramEditor() {
 		super("Diagram Editor");
@@ -131,7 +133,7 @@ public class DiagramEditor extends JFrame {
 	}
 	
 	/**
-	 * ‘оздание строки меню и панели инструментов
+	 * РЎРѕР·РґР°РЅРёРµ СЃС‚СЂРѕРєРё РјРµРЅСЋ Рё РїР°РЅРµР»Рё РёРЅСЃС‚СЂСѓРјРµРЅС‚РѕРІ
 	 */
 	public void makeToolbarAndMenu() {
         JMenuBar menubar = new JMenuBar();
@@ -233,8 +235,8 @@ public class DiagramEditor extends JFrame {
 	}
 
 	/**
-	 * ’очка входа
-	 * @param args аргументы командной строки
+	 * РўРѕС‡РєР° РІС…РѕРґР°
+	 * @param args Р°СЂРіСѓРјРµРЅС‚С‹ РєРѕРјР°РЅРґРЅРѕР№ СЃС‚СЂРѕРєРё
 	 */
     public static void main(String[] args) {
     	DiagramEditor frame = new DiagramEditor();

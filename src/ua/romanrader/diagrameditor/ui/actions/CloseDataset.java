@@ -9,13 +9,25 @@ import ua.romanrader.diagrameditor.model.DataModel;
 import ua.romanrader.diagrameditor.ui.DiagramEditor;
 import ua.romanrader.diagrameditor.util.observer.Notificator;
 
+/**
+ * Действие закрытия дата-сета
+ * @author romanrader
+ *
+ */
 public class CloseDataset implements ActionListener {
 	private DiagramEditor de;
 	
+	/**
+	 * Конструктор действия
+	 * @param de главное окно
+	 */
 	public CloseDataset(DiagramEditor de) {
 		this.de = de;
 	}
-	
+
+	/**
+	 * Выполнение действия
+	 */
     public void actionPerformed(ActionEvent e) {
     	DataModel model = DataModel.getInstance();
     	

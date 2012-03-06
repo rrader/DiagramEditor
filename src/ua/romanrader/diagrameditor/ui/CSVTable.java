@@ -14,9 +14,17 @@ import ua.romanrader.diagrameditor.util.observer.Notification;
 import ua.romanrader.diagrameditor.util.observer.Notificator;
 import ua.romanrader.diagrameditor.util.observer.Observer;
 
+/**
+ * Класс таблицы с данными
+ * @author romanrader
+ *
+ */
 @SuppressWarnings("serial")
 public class CSVTable extends JTable implements Observer {
 
+	/**
+	 * Конструктор таблицы
+	 */
 	public CSVTable() {
 		super();
 		//setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
@@ -50,6 +58,9 @@ public class CSVTable extends JTable implements Observer {
 		//TODO: add setHeaderRenderer
 	}
 	
+	/**
+	 * Установить рендерер для всех столбцов
+	 */
 	public void setRendererForAllColumns() {
 		for (int r=0; r<this.getColumnCount(); r++) {
         	TableColumn col = this.getColumnModel().getColumn(r);
@@ -61,6 +72,9 @@ public class CSVTable extends JTable implements Observer {
         }
 	}
 
+	/**
+	 * Получение сообщения
+	 */
 	@Override
 	public void notificationReceived(Notification notification) {
 		if (notification.getName().compareTo(DiagramEditor.COLUMN_ADDED) == 0) {

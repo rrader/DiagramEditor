@@ -16,19 +16,43 @@ import ua.romanrader.diagrameditor.util.observer.Notificator;
 import javax.swing.table.AbstractTableModel;
 
 //TODO Model in MVC, Singleton and Adapter simultaneously - to documentation
+/**
+ * Модель данных. Синглтон, адаптер списка датасетов к AbstractTableModel
+ * @author romanrader
+ *
+ */
 @SuppressWarnings("serial")
 public class DataModel extends AbstractTableModel implements List<DataSet> {
 
+	/**
+	 * Состояние редактирования диаграммы
+	 * @author romanrader
+	 *
+	 */
 	public enum State {StateNormal, StateRemoving};
+	
+	/**
+	 * Способ отображения - один датасет или все одновременно
+	 * @author romanrader
+	 *
+	 */
 	public enum ViewState {Single, Simultaneously};
 	
 	private ArrayList<DataSet> dataSets = new ArrayList<DataSet>();
 	private ArrayList<ArrayList<Color>> colorSets = null;
 	
+	/**
+	 * Список списков цветов для каждого дата-сета
+	 * @return список списка цветов
+	 */
 	public ArrayList<ArrayList<Color>> getColorSets() {
 		return colorSets;
 	}
 
+	/**
+	 * Установка списка списков цветов для каждого дата-сета
+	 * @param colorSets
+	 */
 	public void setColorSets(ArrayList<ArrayList<Color>> colorSets) {
 		this.colorSets = colorSets;
 	}
@@ -42,40 +66,74 @@ public class DataModel extends AbstractTableModel implements List<DataSet> {
 	private static DataModel instance = new DataModel();
 	private DataModel() {}
 	
+	/**
+	 * Получение объекта модели данных
+	 * @return
+	 */
 	public static DataModel getInstance() {
 		return instance;
 	}
 	private int selectedColumn = -1;
 	
+	/**
+	 * Текущий столбец
+	 * @return номер столбца
+	 */
 	public int getSelectedColumn() {
 		return selectedColumn;
 	}
 
+	/**
+	 * Установка текущего столбца
+	 * @param selectedColumn номер столбца
+	 */
 	public void setSelectedColumn(int selectedColumn) {
 		this.selectedColumn = selectedColumn;
 	}
 	
+	/**
+	 * Сообщить об изменении данных таблице
+	 */
 	public void dataSetUpdated() {
 		fireTableStructureChanged();
 	}
 	
+	/**
+	 * Список цветов для текущего столбца
+	 * @return
+	 */
 	public ArrayList<Color> getCurrentColorSet() {
 		return currentColorSet;
 	}
 
+	/**
+	 * Установить список цветов для текущего столбца
+	 * @param currentColorSet список цветов для текущего столбца
+	 */
 	public void setCurrentColorSet(ArrayList<Color> currentColorSet) {
 		this.currentColorSet = currentColorSet;
 	}
 
+	/**
+	 * Текущий датасет
+	 * @return Текущий датасет
+	 */
 	public DataSet getCurrentDataSet() {
 		return currentDataSet;
 	}
 
+	/**
+	 * Установить текущий датасет
+	 * @param currentDataSet Новый датасет
+	 */
 	public void setCurrentDataSet(DataSet currentDataSet) {
 		this.currentDataSet = currentDataSet;
 		this.makeColors();
 	}
 	
+	/**
+	 * Сгенерировать цвета
+	 */
 	public void makeColors() {
 		if (vstate == ViewState.Single) {
 			if (currentDataSet == null) {
@@ -108,6 +166,38 @@ public class DataModel extends AbstractTableModel implements List<DataSet> {
 				colorSets.add(colorSet);
 			}
 		}
+	}
+	
+	/**
+	 * Получить состояние редактирования
+	 * @return
+	 */
+	public State getState() {
+		return state;
+	}
+
+	/**
+	 * Установить состояние редактирования
+	 * @param state
+	 */
+	public void setState(State state) {
+		this.state = state;
+	}
+
+	/**
+	 * Способ отображения
+	 * @return Способ отображения
+	 */
+	public ViewState getVstate() {
+		return vstate;
+	}
+
+	/**
+	 * Установить способ отображения
+	 * @param vstate Способ отображения
+	 */
+	public void setVstate(ViewState vstate) {
+		this.vstate = vstate;
 	}
 	
 // =================
@@ -289,21 +379,5 @@ public class DataModel extends AbstractTableModel implements List<DataSet> {
 	@Override
 	public List<DataSet> subList(int arg0, int arg1) {
 		return dataSets.subList(arg0, arg1);
-	}
-
-	public State getState() {
-		return state;
-	}
-
-	public void setState(State state) {
-		this.state = state;
-	}
-
-	public ViewState getVstate() {
-		return vstate;
-	}
-
-	public void setVstate(ViewState vstate) {
-		this.vstate = vstate;
 	}
 }

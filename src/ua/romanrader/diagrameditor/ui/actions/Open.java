@@ -12,13 +12,25 @@ import ua.romanrader.diagrameditor.model.csv.CSVReceiver;
 import ua.romanrader.diagrameditor.model.csv.DataSet;
 import ua.romanrader.diagrameditor.ui.DiagramEditor;
 
+/**
+ * Действие открытия .csv файла
+ * @author romanrader
+ *
+ */
 public class Open implements ActionListener {
 	private DiagramEditor de;
 	
+	/**
+	 * Конструктор действия
+	 * @param de главное окно
+	 */
 	public Open(DiagramEditor de) {
 		this.de = de;
 	}
 	
+	/**
+	 * Выполнение действия
+	 */
     public void actionPerformed(ActionEvent e) {
     	de.getStatusBar().setText("Opening dataset...");
     	JFileChooser fc = new JFileChooser();
@@ -30,7 +42,7 @@ public class Open implements ActionListener {
 
     			@Override
     			public void receivingFailed(String message) {
-    				JOptionPane.showMessageDialog(de, "Opening failed", "Error",
+    				JOptionPane.showMessageDialog(de, "Opening failed: "+message, "Error",
     				        JOptionPane.ERROR_MESSAGE);
     				de.getStatusBar().setText("opening failed");
     			}

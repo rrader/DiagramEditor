@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 //TODO: Observer, decorator
+/**
+ * Класс множества данных
+ * @author romanrader
+ *
+ */
 @SuppressWarnings("serial")
 public class DataSet extends ArrayList<Double> {
 	//private ArrayList<Double> data;
@@ -14,14 +19,25 @@ public class DataSet extends ArrayList<Double> {
 //	
 	private double startAngle = 0;
 	
+	/**
+	 * Пустое множество данных
+	 */
 	public DataSet() {
 		super();
 	}
 	
+	/**
+	 * Множество данных на основе двумерного массива
+	 * @param data данные
+	 */
 	public DataSet(Double[][] data) {
 		super(Arrays.asList(data[0]));
 	}
 
+	/**
+	 * Сумма элементов
+	 * @return
+	 */
 	public double sum() {
 		double sum = 0;
 		for(double v : this) {
@@ -30,6 +46,10 @@ public class DataSet extends ArrayList<Double> {
 		return sum;
 	}
 	
+	/**
+	 * Генерация углов
+	 * @return массив углов
+	 */
 	public double[] generateAngles() {
 		double sum = sum();
 		double[] angles = new double[this.size()];
@@ -39,6 +59,11 @@ public class DataSet extends ArrayList<Double> {
 		return angles;
 	}
 	
+	/**
+	 * Установить угол для значения
+	 * @param num номер
+	 * @param nval угол
+	 */
 	public void setAngle(int num, double nval) {
 		double val = nval - startAngle;
 		double sum = sum();
@@ -70,14 +95,25 @@ public class DataSet extends ArrayList<Double> {
 		}
 	}
 
+	/**
+	 * Угол отсчета
+	 * @return Угол отсчета
+	 */
 	public double getStartAngle() {
 		return startAngle;
 	}
-
+	
+	/**
+	 * Установка угла отсчета
+	 * @param startAngle угол
+	 */
 	public void setStartAngle(double startAngle) {
 		this.startAngle = startAngle;
 	}
 	
+	/**
+	 * Добавление значения
+	 */
 	public void addValue() {
 		this.add(sum()/5);
 	}

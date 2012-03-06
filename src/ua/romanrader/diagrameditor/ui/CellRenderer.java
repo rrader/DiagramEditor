@@ -9,9 +9,17 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import ua.romanrader.diagrameditor.model.DataModel;
 
+/**
+ * Класс, который задает способ отображения ячейки таблицы
+ * @author romanrader
+ *
+ */
 @SuppressWarnings("serial")
 public class CellRenderer extends DefaultTableCellRenderer {
 
+	/**
+	 * Получить компонент по координатам в таблице
+	 */
 	public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int col) {
 		Component comp = super.getTableCellRendererComponent(table, value,

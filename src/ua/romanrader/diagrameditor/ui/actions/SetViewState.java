@@ -10,19 +10,33 @@ import ua.romanrader.diagrameditor.model.DataModel;
 import ua.romanrader.diagrameditor.ui.DiagramEditor;
 import ua.romanrader.diagrameditor.util.observer.Notificator;
 
+/**
+ * Действие установки режима отображения
+ * @author romanrader
+ *
+ */
 public class SetViewState implements ActionListener {
 	private DiagramEditor de;
 	private JToggleButton button;
 	private JCheckBoxMenuItem item;
 	
+	/**
+	 * Конструктор действия
+	 * @param de главное окно
+	 * @param button кнопка на панели инструментов
+	 * @param item пункт меню
+	 */
 	public SetViewState(DiagramEditor de, JToggleButton button, JCheckBoxMenuItem item) {
 		this.de = de;
 		this.button = button;
 		this.item = item;
 	}
 	
+	/**
+	 * Выполнение действия
+	 */
     public void actionPerformed(ActionEvent e) {
-    	if (e.getSource().getClass() == JToggleButton.class) {
+    	if (e.getSource() instanceof JToggleButton) {
     		DataModel model = DataModel.getInstance();
         	model.setVstate( ((JToggleButton)e.getSource()).isSelected() ? DataModel.ViewState.Simultaneously : DataModel.ViewState.Single );
         	item.setSelected(((JToggleButton)e.getSource()).isSelected());
@@ -30,7 +44,7 @@ public class SetViewState implements ActionListener {
         	de.getStatusBar().setText(((JToggleButton)e.getSource()).isSelected() ? "View mode: simultaneously" : "View mode: single");
         	Notificator.getInstance().sendNotify(de, DiagramEditor.VIEWSTATE_CHANGED);
     	}
-    	if (e.getSource().getClass() == JCheckBoxMenuItem.class) {
+    	if (e.getSource() instanceof JCheckBoxMenuItem) {
     		DataModel model = DataModel.getInstance();
         	model.setVstate( ((JCheckBoxMenuItem)e.getSource()).isSelected() ? DataModel.ViewState.Simultaneously : DataModel.ViewState.Single );
         	button.setSelected(((JCheckBoxMenuItem)e.getSource()).isSelected());

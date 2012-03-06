@@ -21,6 +21,11 @@ import ua.romanrader.diagrameditor.util.observer.Notification;
 import ua.romanrader.diagrameditor.util.observer.Notificator;
 import ua.romanrader.diagrameditor.util.observer.Observer;
 
+/**
+ * Компонент отображения и редактирования диаграммы
+ * @author romanrader
+ *
+ */
 @SuppressWarnings("serial")
 public class DiagramView extends JPanel implements Observer, MouseListener, MouseMotionListener  {
 	ArrayList<Arc2D.Double> arcs = null;
@@ -28,6 +33,10 @@ public class DiagramView extends JPanel implements Observer, MouseListener, Mous
 	private float margin;
 	private float size;
 	private int currentMoving = -1;
+	
+	/**
+	 * Конструктор компонента
+	 */
 	public DiagramView() {
 		Notificator.getInstance().addObserver(this, DiagramEditor.NEW_DATASET_NOTIFICATION);
 		Notificator.getInstance().addObserver(this, DiagramEditor.DATASET_CHANGED);
@@ -37,6 +46,9 @@ public class DiagramView extends JPanel implements Observer, MouseListener, Mous
 		addMouseMotionListener(this);
 	}
 
+	/**
+	 * Рисование
+	 */
 	public void paintComponent(Graphics g) {
         super.paintComponent(g);
         DataModel model = DataModel.getInstance();
@@ -57,6 +69,15 @@ public class DiagramView extends JPanel implements Observer, MouseListener, Mous
         }
     }
 
+	/**
+	 * Рисование конкретного дата-сета в контексте
+	 * @param g контекст
+	 * @param dataSet дата-сет
+	 * @param colorSet список цветов
+	 * @param count количество дата-сетов
+	 * @param num номер текущего дата-сета
+	 * @param makeActiveRegions создавать ли области изменения размеров
+	 */
 	public void paintDataSet(Graphics g, DataSet dataSet, ArrayList<Color> colorSet, int count, int num, boolean makeActiveRegions) {
 		if (dataSet == null) {
         	g.clearRect(0, 0, getWidth(), getHeight());
@@ -97,6 +118,11 @@ public class DiagramView extends JPanel implements Observer, MouseListener, Mous
         }
 	}
 
+	/**
+	 * Проверка попадания мышкой в секцию
+	 * @param point координаты
+	 * @return номер секции (или -1 если не попал)
+	 */
 	public int hitTest(Point2D point) {
 		if (arcs == null)
 			return -1;
@@ -109,6 +135,11 @@ public class DiagramView extends JPanel implements Observer, MouseListener, Mous
 		return -1;
 	}
     
+	/**
+	 * Проверка попадания в активную область мышкой
+	 * @param point координаты
+	 * @return номер секции (или -1 если не попал)
+	 */
 	public int hitTestActiveRegions(Point2D point) {
 		if (activeArcs == null)
 			return -1;
@@ -121,6 +152,10 @@ public class DiagramView extends JPanel implements Observer, MouseListener, Mous
 		return -1;
 	}
 	
+	/**
+	 * В картинку
+	 * @return возвращает объект Image
+	 */
     public Image toImage() {
     	DataSet dataSet = DataModel.getInstance().getCurrentDataSet();
     	
@@ -136,31 +171,24 @@ public class DiagramView extends JPanel implements Observer, MouseListener, Mous
         return bi;
     }
 
+    /**
+     * Получение сообщения
+     */
 	@Override
 	public void notificationReceived(Notification notification) {
-		//TODO merge new and changed notifications
-		if (notification.getName().compareTo(DiagramEditor.NEW_DATASET_NOTIFICATION) == 0) {
-			DataModel.getInstance().makeColors();
-			this.revalidate();
-			this.repaint();
-		}
-		if (notification.getName().compareTo(DiagramEditor.DATASET_CHANGED) == 0) {
-			DataModel.getInstance().makeColors();
-			this.revalidate();
-			this.repaint();
-		}
-		if (notification.getName().compareTo(DiagramEditor.VIEWSTATE_CHANGED) == 0) {
-			DataModel.getInstance().makeColors();
-			this.revalidate();
-			this.repaint();
-		}
-		if (notification.getName().compareTo(DiagramEditor.COLUMN_ADDED) == 0) {
+		if ((notification.getName().compareTo(DiagramEditor.NEW_DATASET_NOTIFICATION) == 0) ||
+			(notification.getName().compareTo(DiagramEditor.DATASET_CHANGED) == 0) ||
+			(notification.getName().compareTo(DiagramEditor.VIEWSTATE_CHANGED) == 0) ||
+			(notification.getName().compareTo(DiagramEditor.COLUMN_ADDED) == 0)) {
 			DataModel.getInstance().makeColors();
 			this.revalidate();
 			this.repaint();
 		}
 	}
 
+	/**
+	 * Обработка клика мышкой
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		DataSet dataSet = DataModel.getInstance().getCurrentDataSet();
@@ -221,6 +249,9 @@ public class DiagramView extends JPanel implements Observer, MouseListener, Mous
 		
 	}
 
+	/**
+	 * Обработка нажатия мыши
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (arcs != null) {
@@ -229,6 +260,9 @@ public class DiagramView extends JPanel implements Observer, MouseListener, Mous
 		}
 	}
 
+	/**
+	 * Обработка отпускания мыши
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		currentMoving = -1;
@@ -239,6 +273,9 @@ public class DiagramView extends JPanel implements Observer, MouseListener, Mous
 
 	}
 
+	/**
+	 * Обработка перетаскивания
+	 */
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		if (arcs != null) {

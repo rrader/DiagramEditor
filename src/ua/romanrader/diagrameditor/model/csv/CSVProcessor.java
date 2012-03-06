@@ -161,6 +161,12 @@ public class CSVProcessor {
 		return new DataSet(sl);
 	}
 	
+	/**
+	 * Изменить расширение файла
+	 * @param originalName путь (или имя)
+	 * @param newExtension новое расширение
+	 * @return новый путь (имя)
+	 */
 	private static String changeExtension(String originalName, String newExtension) {
 	    int lastDot = originalName.lastIndexOf(".");
 	    if (lastDot != -1) {
@@ -170,6 +176,11 @@ public class CSVProcessor {
 	    }
 	}
 	
+	/**
+	 * Загрузка CSV из файла в другой нити
+	 * @param file файл
+	 * @param receiver получатель
+	 */
 	public static void LoadFile(final String file, final CSVReceiver receiver) {
 		Thread parsing = new Thread(new Runnable() {
 			public void run() {
@@ -221,6 +232,12 @@ public class CSVProcessor {
 		parsing.start();
 	}
 	
+	/**
+	 * Сохранение файла
+	 * @param file путь
+	 * @param ds дата-сет
+	 * @throws IOException
+	 */
 	public static void SaveFile(final String file, DataSet ds) throws IOException {
 		CSVProcessor p = new CSVProcessor();
 		String res = "";
