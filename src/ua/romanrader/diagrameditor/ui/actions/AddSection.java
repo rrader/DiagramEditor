@@ -13,28 +13,33 @@ import ua.romanrader.diagrameditor.util.observer.Notificator;
  *
  */
 public class AddSection implements ActionListener {
-	private DiagramEditor de;
-	
-	/**
-	 * Конструктор действия
-	 * @param de главное окно
-	 */
-	public AddSection(DiagramEditor de) {
-		this.de = de;
-	}
-	
-	/**
-	 * Выполнение действия
-	 */
-    public void actionPerformed(ActionEvent e) {
-    	DataModel model = DataModel.getInstance();
-    	if (model.getCurrentDataSet() != null) {
-    		model.getCurrentDataSet().addValue();
-			model.makeColors();
-			Notificator.getInstance().sendNotify(this, DiagramEditor.DATASET_CHANGED);
-			de.getStatusBar().setText("Section added");
-    	} else {
-    		de.getStatusBar().setText("No dataset");
-    	}
+    /**
+     * Главное окно
+     */
+    private DiagramEditor de;
+
+    /**
+     * Конструктор действия
+     * @param tde главное окно
+     */
+    public AddSection(final DiagramEditor tde) {
+        this.de = tde;
+    }
+
+    /**
+     * Выполнение действия
+     * @param e действие
+     */
+    public final void actionPerformed(final ActionEvent e) {
+        DataModel model = DataModel.getInstance();
+        if (model.getCurrentDataSet() != null) {
+            model.getCurrentDataSet().addValue();
+            model.makeColors();
+            Notificator.getInstance().sendNotify(this,
+                    DiagramEditor.DATASET_CHANGED);
+            de.getStatusBar().setText("Section added");
+        } else {
+            de.getStatusBar().setText("No dataset");
+        }
     }
 }

@@ -6,9 +6,9 @@ package ua.romanrader.diagrameditor.util.observer;
  *
  */
 public interface Observer {
-	/**
-	 * Получение сообщения
-	 * @param notification сообщение
-	 */
-	public void notificationReceived(Notification notification);
+    /**
+     * Получение сообщения
+     * @param notification сообщение
+     */
+    void notificationReceived(Notification notification);
 }

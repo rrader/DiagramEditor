@@ -21,42 +21,45 @@ import ua.romanrader.diagrameditor.ui.DiagramEditor;
  *
  */
 public class ExportToJPEG implements ActionListener {
-	private DiagramEditor de;
-	
-	/**
-	 * Конструктор действия
-	 * @param de главное окно
-	 */
-	public ExportToJPEG(DiagramEditor de) {
-		this.de = de;
-	}
-	
-	/**
-	 * Выполнение действия
-	 */
-    public void actionPerformed(ActionEvent e) {
-    	DataSet ds = DataModel.getInstance().getCurrentDataSet();
-    	if (ds != null) {
-    		de.getStatusBar().setText("Saving dataset...");
-        	JFileChooser fc = new JFileChooser();
-        	
-        	int returnVal = fc.showSaveDialog(de);
+    /**
+     * Главное окно
+     */
+    private DiagramEditor de;
+
+    /**
+     * Конструктор действия
+     * @param tde главное окно
+     */
+    public ExportToJPEG(final DiagramEditor tde) {
+        this.de = tde;
+    }
+
+    /**
+     * Выполнение действия
+     * @param e действие
+     */
+    public final void actionPerformed(final ActionEvent e) {
+        DataSet ds = DataModel.getInstance().getCurrentDataSet();
+        if (ds != null) {
+            de.getStatusBar().setText("Saving dataset...");
+            JFileChooser fc = new JFileChooser();
+
+            int returnVal = fc.showSaveDialog(de);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
-            	Image img = de.getDiagramView().toImage();
-            	String path = fc.getSelectedFile().getPath();
+                Image img = de.getDiagramView().toImage();
+                String path = fc.getSelectedFile().getPath();
                 try {
-                	if(!path.toLowerCase().endsWith(".jpg"))
-                	{
-                	    path += ".jpg";
-                	}
-                	ImageIO.write((RenderedImage) img, "jpg", new File(path));
-                	de.getStatusBar().setText("Saved to JPG");
-                } catch(IOException ioe) {
-                	JOptionPane.showMessageDialog(de, "Saving failed", "Error",
-    				        JOptionPane.ERROR_MESSAGE);
-              	  	de.getStatusBar().setText("I/O error");
+                    if (!path.toLowerCase().endsWith(".jpg")) {
+                        path += ".jpg";
+                    }
+                    ImageIO.write((RenderedImage) img, "jpg", new File(path));
+                    de.getStatusBar().setText("Saved to JPG");
+                } catch (IOException ioe) {
+                    JOptionPane.showMessageDialog(de, "Saving failed", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    de.getStatusBar().setText("I/O error");
                 }
             }
-    	}
+        }
     }
 }

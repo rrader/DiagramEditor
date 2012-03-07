@@ -1,24 +1,26 @@
 package ua.romanrader.diagrameditor.model.csv;
+
 import java.io.IOException;
 
 /**
- * Exception during CSV parsing
+ * Исключение при парсинге CSV-файла
  * @author romanrader
  *
  */
 @SuppressWarnings("serial")
 public class CSVParseException extends IOException {
-	/**
-	 * Constructor without message
-	 */
-	public CSVParseException() {
-		super();
-	}
-	
-	/**
-	 * Constructor without message
-	 */
-	public CSVParseException(String text) {
-		super(text);
-	}
+    /**
+     * Конструктор
+     */
+    public CSVParseException() {
+        super();
+    }
+
+    /**
+     * Конструктор
+     * @param text текст
+     */
+    public CSVParseException(final String text) {
+        super(text);
+    }
 }

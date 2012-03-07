@@ -6,60 +6,73 @@ package ua.romanrader.diagrameditor.util.observer;
  *
  */
 public class Notification {
-	private Object sender;
-	private String name;
-	private Object userData;
-	
-	/**
-	 * Конструктор сообщения
-	 * @param sender источник
-	 * @param name идентификатор
-	 * @param userData данные
-	 */
-	public Notification(Object sender, String name, Object userData) {
-		super();
-		this.sender = sender;
-		this.name = name;
-		this.userData = userData;
-	}
-	
-	/**
-	 * Получить источник
-	 * @return источник
-	 */
-	public Object getSender() {
-		return sender;
-	}
-	/**
-	 * Установить источник
-	 */
-	public void setSender(Object sender) {
-		this.sender = sender;
-	}
-	/**
-	 * Идентификатор
-	 * @return идентификатор
-	 */
-	public String getName() {
-		return name;
-	}
-	/**
-	 * Идентификатор
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-	/**
-	 * Данные
-	 * @return данные
-	 */
-	public Object getUserData() {
-		return userData;
-	}
-	/**
-	 * Данные/
-	 */
-	public void setUserData(Object userData) {
-		this.userData = userData;
-	}
+    /**
+     * отправитель
+     */
+    private Object sender;
+    /**
+     * идентификатор
+     */
+    private String name;
+    /**
+     * данные
+     */
+    private Object userData;
+
+    /**
+     * Конструктор сообщения
+     * @param theSender источник
+     * @param theName идентификатор
+     * @param theUserData данные
+     */
+    public Notification(final Object theSender,
+            final String theName, final Object theUserData) {
+        super();
+        this.sender = theSender;
+        this.name = theName;
+        this.userData = theUserData;
+    }
+
+    /**
+     * Получить источник
+     * @return источник
+     */
+    public final Object getSender() {
+        return sender;
+    }
+    /**
+     * Установить источник
+     * @param theSender источник
+     */
+    public final void setSender(final Object theSender) {
+        this.sender = theSender;
+    }
+    /**
+     * Идентификатор
+     * @return идентификатор
+     */
+    public final String getName() {
+        return name;
+    }
+    /**
+     * Идентификатор
+     * @param theName идентификатор
+     */
+    public final void setName(final String theName) {
+        this.name = theName;
+    }
+    /**
+     * Данные
+     * @return данные
+     */
+    public final Object getUserData() {
+        return userData;
+    }
+    /**
+     * Данные
+     * @param theUserData данные
+     */
+    public final void setUserData(final Object theUserData) {
+        this.userData = theUserData;
+    }
 }

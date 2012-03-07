@@ -11,21 +11,23 @@ import javax.swing.JLabel;
  */
 @SuppressWarnings("serial")
 public class StatusBar extends JLabel {
-    
+
     /**
      * Конструктор строки состояния
      */
     public StatusBar() {
         super();
-        super.setPreferredSize(new Dimension(100, 16));
+        final int width = 100;
+        final int height = 16;
+        super.setPreferredSize(new Dimension(width, height));
         setMessage("Ready");
     }
-    
+
     /**
      * Установить сообщение
-     * @param message
+     * @param message сообщение
      */
-    public void setMessage(String message) {
-        setText(" "+message);        
-    }        
+    public final void setMessage(final String message) {
+        setText(" " + message);
+    }
 }

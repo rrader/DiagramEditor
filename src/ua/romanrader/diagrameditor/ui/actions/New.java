@@ -12,12 +12,13 @@ import ua.romanrader.diagrameditor.model.csv.DataSet;
  *
  */
 public class New implements ActionListener {
-	/**
-	 * Выполнение действия
-	 */
-    public void actionPerformed(ActionEvent e) {
-    	DataSet ds = new DataSet();
-    	ds.add(1.);
-    	DataModel.getInstance().add(ds);
+    /**
+     * Выполнение действия
+     * @param e действие
+     */
+    public final void actionPerformed(final ActionEvent e) {
+        DataSet ds = new DataSet();
+        ds.add(1.);
+        DataModel.getInstance().add(ds);
     }
 }

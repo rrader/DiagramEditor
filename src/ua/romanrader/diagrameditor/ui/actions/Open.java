@@ -18,44 +18,52 @@ import ua.romanrader.diagrameditor.ui.DiagramEditor;
  *
  */
 public class Open implements ActionListener {
-	private DiagramEditor de;
-	
-	/**
-	 * Конструктор действия
-	 * @param de главное окно
-	 */
-	public Open(DiagramEditor de) {
-		this.de = de;
-	}
-	
-	/**
-	 * Выполнение действия
-	 */
-    public void actionPerformed(ActionEvent e) {
-    	de.getStatusBar().setText("Opening dataset...");
-    	JFileChooser fc = new JFileChooser();
-    	
-    	int returnVal = fc.showOpenDialog(de);
+    /**
+     * Главное окно
+     * @param e действие
+     */
+    private DiagramEditor de;
+
+    /**
+     * Конструктор действия
+     * @param tde главное окно
+     */
+    public Open(final DiagramEditor tde) {
+        this.de = tde;
+    }
+
+    /**
+     * Выполнение действия
+     * @param e действие
+     */
+    public final void actionPerformed(final ActionEvent e) {
+        de.getStatusBar().setText("Opening dataset...");
+        JFileChooser fc = new JFileChooser();
+
+        int returnVal = fc.showOpenDialog(de);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-        	de.getStatusBar().setText("Opening "+fc.getSelectedFile().getName());
-    		CSVProcessor.LoadFile(fc.getSelectedFile().getPath(), new CSVReceiver(){
+            de.getStatusBar().setText("Opening "
+               + fc.getSelectedFile().getName());
+            CSVProcessor.loadFile(fc.getSelectedFile().getPath(),
+                    new CSVReceiver() {
 
-    			@Override
-    			public void receivingFailed(String message) {
-    				JOptionPane.showMessageDialog(de, "Opening failed: "+message, "Error",
-    				        JOptionPane.ERROR_MESSAGE);
-    				de.getStatusBar().setText("opening failed");
-    			}
+                @Override
+                public void receivingFailed(final String message) {
+                    JOptionPane.showMessageDialog(de,
+                            "Opening failed: " + message, "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    de.getStatusBar().setText("opening failed");
+                }
 
-    			@Override
-    			public void receivingFinished(DataSet data) {
-    				DataModel.getInstance().add(data);
-    				de.getStatusBar().setText("opened successfully");
-    			}
-    			
-    		});
+                @Override
+                public void receivingFinished(final DataSet data) {
+                    DataModel.getInstance().add(data);
+                    de.getStatusBar().setText("opened successfully");
+                }
+
+            });
         } else {
-        	de.getStatusBar().setText("Ready");
+            de.getStatusBar().setText("Ready");
         }
     }
 }

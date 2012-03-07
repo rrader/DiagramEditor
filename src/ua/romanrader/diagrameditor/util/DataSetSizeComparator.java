@@ -11,9 +11,13 @@ import ua.romanrader.diagrameditor.model.csv.DataSet;
  */
 public class DataSetSizeComparator implements Comparator<DataSet> {
 
-	@Override
-	public int compare(DataSet arg0, DataSet arg1) {
-		return (arg0.size() > arg1.size()) ? 1 : -1 ;
-	}
+    @Override
+    public final int compare(final DataSet arg0, final DataSet arg1) {
+        if (arg0.size() > arg1.size()) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
 
 }
